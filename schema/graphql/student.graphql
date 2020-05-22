@@ -1,0 +1,20 @@
+extend type Query {
+  getStudentById(id: Int!): Student
+  getAllStudents: [Student]!
+}
+
+extend type Mutation {
+  createStudent(firstName: String!, lastName: String!, email: String!, hobbyList: [InputHobbies]!): Student!
+}
+
+type Student {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  hobbies: [Hobbies]
+}
+
+input InputHobbies {
+  id: Int!
+}

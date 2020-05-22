@@ -1,0 +1,13 @@
+extend type Query {
+  getAllHobbies: [Hobbies]!
+
+}
+
+extend type Mutation {
+  createHobbies(title: String!): Hobbies!
+}
+
+type Hobbies {
+  id: Int!
+  title: String!
+}
