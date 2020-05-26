@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+
 import { graphql } from "body-parser-graphql";
 import {
     ApolloServer,
@@ -30,6 +31,7 @@ const server = new ApolloServer({
 
 const app = express();
 app.use(graphql());
+
 server.applyMiddleware({
     app,
     path: "/graph-private"

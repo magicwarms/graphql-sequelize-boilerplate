@@ -1,13 +1,19 @@
 import _ from "lodash";
 import * as fill from "./format-data/fill";
-import DataLoader from "Dataloader";
+import redisClient from "../../config/redis";
 
 const Student = require('../../models').default.Student;
 const Hobbies = require('../../models').default.Hobbies;
 const Student_hobbies = require('../../models').default.Student_hobbies;
 
 export async function getStudentById(studentId) {
-    let getStudent = await Student.findOne({
+    let getStudent = await redisClient.get(studentId);
+    if (!_.isEmpty(getStudent)){
+        getStudent = JSON.parse(getStudent);
+        getStudent.hobbies = fill.studentHobbies(getStudent);
+        return getStudent;
+    }
+    getStudent = await Student.findOne({
         include: [{
             model: Student_hobbies,
             as: "student_hobbies",
@@ -24,11 +30,16 @@ export async function getStudentById(studentId) {
         return null;
     }
     getStudent.hobbies = fill.studentHobbies(getStudent);
+    await redisClient.setex(studentId, 3600, JSON.stringify(getStudent));
     return getStudent;
 }
 
 export async function getAllStudents() {
-    let listStudents = await Student.findAll({
+    let listStudents = await redisClient.get("listStudents");
+    if (!_.isEmpty(listStudents)) {
+        return JSON.parse(listStudents);
+    }
+    listStudents = await Student.findAll({
         include: [{
             model: Student_hobbies,
             as: "student_hobbies",
@@ -42,6 +53,7 @@ export async function getAllStudents() {
         return [];
     }
     const result = fill.studentHobbies(listStudents, true);
+    await redisClient.setex("listStudents", 3600, JSON.stringify(result));
     return result;
 }
 
