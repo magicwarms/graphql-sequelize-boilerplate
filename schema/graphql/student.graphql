@@ -1,9 +1,9 @@
-extend type Query {
+type Query {
   getStudentById(id: Int!): Student
   getAllStudents: [Student]!
 }
 
-extend type Mutation {
+type Mutation {
   createStudent(firstName: String!, lastName: String!, email: String!, hobbyList: [InputHobbies]!): Student!
 }
 

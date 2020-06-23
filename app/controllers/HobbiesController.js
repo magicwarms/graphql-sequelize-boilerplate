@@ -2,7 +2,7 @@ import _ from "lodash";
 
 const Hobbies = require('../../models').default.Hobbies;
 
-export const HobbiesResolvers = {
+export default {
     Query: {
         getAllHobbies: async (root, args, context) => {
             const hobbies = await Hobbies.findAll();

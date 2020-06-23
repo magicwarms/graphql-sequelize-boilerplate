@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 
 import { graphql } from "body-parser-graphql";
 import {
@@ -9,13 +10,16 @@ import {
 
 dotenv.config();
 
-import typeDefs from './schema/typeDefs';
-import resolvers from './schema/resolvers';
+import {
+    resolvers,
+    typeDefs
+} from "./schema";
+
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     cacheControl: {
-        defaultMaxAge: 10,
+        defaultMaxAge: 3600,
     },
     introspection: process.env.APP_ENV == "production" ? false : true,
     playground: process.env.APP_ENV == "production" ? false : true,
@@ -31,6 +35,8 @@ const server = new ApolloServer({
 
 const app = express();
 app.use(graphql());
+// Log requests to the console.
+app.use(morgan("dev"));
 
 server.applyMiddleware({
     app,

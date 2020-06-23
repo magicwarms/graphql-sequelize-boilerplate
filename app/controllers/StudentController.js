@@ -1,6 +1,6 @@
 import * as studentServices from "../services/StudentServices";
 
-export const StudentResolvers = {
+export default {
     Query: {
         getStudentById: async(root, args, context) => {
             const getStudent = await studentServices.getStudentById(args.id);

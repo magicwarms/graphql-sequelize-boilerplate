@@ -1,9 +1,9 @@
-extend type Query {
+type Query {
   getAllHobbies: [Hobbies]!
 
 }
 
-extend type Mutation {
+type Mutation {
   createHobbies(title: String!): Hobbies!
 }
 
