@@ -19,7 +19,7 @@
     "redis": "^3.0.2",
     "sequelize": "^5.21.7",
     "sequelize-cli": "^5.5.1",
-    "graphql-tools": "^6.0.10",
+    "graphql-tools": "^6.2.6",
     "morgan": "^1.9.1"
   },
   "devDependencies": {
